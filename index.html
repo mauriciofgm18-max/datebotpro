@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Date Bot</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: hidden;
+    }
+
+    /* ===== LANDING PAGE ===== */
+    .lp-container {
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px 28px;
+      position: relative;
+    }
+
+    /* Glow de fundo */
+    .lp-container::before {
+      content: '';
+      position: fixed;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(137,90,246,0.18) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .lp-container > * { position: relative; z-index: 1; }
+
+    /* Logo */
+    .lp-logo-wrap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 110px;
+      height: 110px;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      font-size: 38px;
+      margin-bottom: 22px;
+      box-shadow: none;
+      overflow: visible;
+      padding: 0;
+    }
+
+    /* Badge topo */
+    .lp-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(137,90,246,0.12);
+      border: 1px solid rgba(137,90,246,0.35);
+      border-radius: 99px;
+      padding: 5px 14px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #b794ff;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .lp-badge span {
+      width: 6px; height: 6px;
+      background: #895af6;
+      border-radius: 50%;
+      display: inline-block;
+      box-shadow: 0 0 6px #895af6;
+    }
+
+    /* Headline */
+    .lp-headline {
+      text-align: center;
+      font-size: 30px;
+      font-weight: 900;
+      line-height: 1.25;
+      margin-bottom: 18px;
+      max-width: 420px;
+      letter-spacing: -0.5px;
+    }
+
+    .lp-headline .highlight {
+      background: linear-gradient(90deg, #a78bfa, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Subtitle */
+    .subtitle {
+      text-align: center;
+      font-size: 16px;
+      line-height: 1.65;
+      margin-bottom: 16px;
+      color: #fff;
+      max-width: 380px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 14px 18px;
+    }
+
+    .subtitle .underline-bold {
+      font-weight: 800;
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 3px;
+      color: #fff;
+    }
+
+    .subtitle .red-text {
+      color: #f87171;
+      font-weight: 700;
+    }
+
+    /* Tag */
+    .tag-purple {
+      background: linear-gradient(135deg, #7c3aed, #9b6dff);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 9px 22px;
+      border-radius: 99px;
+      display: inline-block;
+      margin-bottom: 28px;
+      letter-spacing: 0.5px;
+      box-shadow: 0 0 20px rgba(137,90,246,0.5), 0 0 40px rgba(137,90,246,0.2);
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    /* Mockup */
+    .mockup-wrap {
+      width: 100%;
+      max-width: 420px;
+      margin-bottom: 32px;
+      position: relative;
+    }
+
+    .mockup-wrap::before {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      height: 40px;
+      background: rgba(137,90,246,0.25);
+      filter: blur(24px);
+      border-radius: 50%;
+    }
+
+    .mockup-wrap img {
+      width: 100%;
+      border-radius: 18px;
+      display: block;
+      position: relative;
+    }
+
+    /* Botão CTA */
+    .btn-iniciar {
+      width: 100%;
+      background: linear-gradient(135deg, #9b6dff, #7c3aed);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      border: none;
+      border-radius: 16px;
+      padding: 19px 24px;
+      cursor: pointer;
+      margin-bottom: 14px;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 28px rgba(137, 90, 246, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-iniciar::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+      animation: shimmer 2.5s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { left: -100%; }
+      100% { left: 200%; }
+    }
+
+    .btn-iniciar:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 36px rgba(137, 90, 246, 0.6);
+    }
+
+    .btn-iniciar:active {
+      transform: translateY(0);
+    }
+
+    /* Warning */
+    .warning-box {
+      width: 100%;
+      background: rgba(255,200,50,0.06);
+      border: 1px solid rgba(255,200,50,0.2);
+      border-radius: 14px;
+      padding: 14px 16px;
+      font-size: 13px;
+      color: #ddd;
+      text-align: center;
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+
+    .warning-box .atencao {
+      color: #fbbf24;
+      font-weight: 700;
+    }
+
+    /* Divisor de prova social */
+    .social-proof {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .social-proof-dots {
+      display: flex;
+    }
+
+    .social-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid #000;
+      margin-left: -8px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .social-dot:first-child { margin-left: 0; }
+
+    .social-dot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    footer {
+      width: 100%;
+      text-align: center;
+      font-size: 11px;
+      color: #444;
+      padding: 0 16px 24px;
+      line-height: 1.6;
+    }
+
+    /* ===== MODAL OVERLAY ===== */
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .overlay.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes scaleIn {
+      from { transform: scale(0.92); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-card {
+      background: #1a1a1a;
+      border-radius: 22px;
+      padding: 28px 24px;
+      width: 100%;
+      max-width: 420px;
+      animation: scaleIn 0.25s ease;
+    }
+
+    .modal-card h2 {
+      font-size: 19px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
+
+    .checkbox-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      cursor: pointer;
+    }
+
+    .checkbox-item input[type="checkbox"] {
+      display: none;
+    }
+
+    .custom-checkbox {
+      width: 22px;
+      height: 22px;
+      min-width: 22px;
+      border-radius: 50%;
+      border: 2px solid #895af6;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+      margin-top: 1px;
+    }
+
+    .custom-checkbox svg {
+      display: none;
+      width: 12px;
+      height: 12px;
+    }
+
+    .checkbox-item.checked .custom-checkbox {
+      background: #895af6;
+    }
+
+    .checkbox-item.checked .custom-checkbox svg {
+      display: block;
+    }
+
+    .checkbox-label {
+      font-size: 13.5px;
+      color: #fff;
+      line-height: 1.5;
+    }
+
+    .modal-note {
+      font-size: 11.5px;
+      color: #a1a1a1;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .btn-entrar {
+      width: 100%;
+      background: #4d4d4d;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      border: none;
+      border-radius: 15px;
+      padding: 17px 24px;
+      cursor: not-allowed;
+      transition: background 0.3s, cursor 0.2s, box-shadow 0.3s;
+    }
+
+    .btn-entrar.enabled {
+      background: linear-gradient(135deg, #895af6, #7c3aed);
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(137, 90, 246, 0.4);
+    }
+
+    .btn-entrar.enabled:hover {
+      opacity: 0.92;
+    }
+
+    /* ===== CHAT QUIZ ===== */
+    .quiz-page {
+      display: none;
+      width: 100%;
+      max-width: 480px;
+      height: 100vh;
+      flex-direction: column;
+      background: #000;
+      position: fixed;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+    }
+
+    .quiz-page.active {
+      display: flex;
+    }
+
+    /* Header do chat */
+    .chat-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      background: #0d0d0d;
+      border-bottom: 1px solid #1a1a1a;
+      flex-shrink: 0;
+    }
+
+    .chat-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: #1a1a1a;
+      flex-shrink: 0;
+      border: 2px solid rgba(137,90,246,0.4);
+    }
+
+    .chat-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .chat-header-info { flex: 1; }
+
+    .chat-header-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .chat-header-status {
+      font-size: 11px;
+      color: #22c55e;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .status-dot {
+      width: 6px; height: 6px;
+      background: #22c55e;
+      border-radius: 50%;
+      display: inline-block;
+      box-shadow: 0 0 6px #22c55e;
+    }
+
+    .chat-progress-bar-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .chat-progress-track {
+      width: 100%;
+      height: 5px;
+      background: #2a2a2a;
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .chat-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #895af6, #c084fc);
+      border-radius: 99px;
+      transition: width 0.5s ease;
+    }
+
+    /* Mensagens */
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 14px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      scroll-behavior: smooth;
+    }
+
+    .chat-messages::-webkit-scrollbar { width: 0; }
+
+    .msg-row {
+      display: flex;
+      animation: msgIn 0.25s ease;
+    }
+
+    @keyframes msgIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .msg-row.bot { justify-content: flex-start; }
+    .msg-row.user { justify-content: flex-end; }
+
+    .msg-bubble {
+      max-width: 80%;
+      padding: 10px 14px;
+      font-size: 14px;
+      line-height: 1.55;
+      color: #fff;
+    }
+
+    .msg-row.bot .msg-bubble {
+      background: #1c1c1e;
+      border-radius: 18px 18px 18px 4px;
+    }
+
+    .msg-row.user .msg-bubble {
+      background: linear-gradient(135deg, #895af6, #7c3aed);
+      border-radius: 18px 18px 4px 18px;
+    }
+
+    /* Typing */
+    .typing-bubble {
+      background: #1c1c1e;
+      padding: 12px 16px;
+      border-radius: 18px 18px 18px 4px;
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+
+    .typing-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #555;
+      animation: typingBounce 1.2s infinite;
+    }
+
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes typingBounce {
+      0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+      30% { transform: translateY(-5px); opacity: 1; }
+    }
+
+    /* Opções */
+    .chat-options {
+      padding: 10px 14px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      border-top: 1px solid #111;
+      background: #000;
+      flex-shrink: 0;
+    }
+
+    .chat-opt-btn {
+      background: #141414;
+      border: 1.5px solid #252525;
+      border-radius: 14px;
+      padding: 12px 14px;
+      color: #ddd;
+      font-size: 13.5px;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      line-height: 1.4;
+    }
+
+    .chat-opt-letter {
+      min-width: 26px;
+      height: 26px;
+      background: #1e1e1e;
+      border: 1px solid #333;
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: #555;
+      flex-shrink: 0;
+      transition: all 0.18s ease;
+    }
+
+    .chat-opt-btn:hover {
+      border-color: rgba(137,90,246,0.5);
+      background: rgba(137,90,246,0.07);
+      color: #fff;
+    }
+
+    .chat-opt-btn:hover .chat-opt-letter {
+      background: rgba(137,90,246,0.2);
+      border-color: #895af6;
+      color: #895af6;
+    }
+
+    .chat-opt-btn:active {
+      transform: scale(0.98);
+    }
+
+    /* Multi-select */
+    .chat-multi-label {
+      font-size: 11px;
+      color: #666;
+      text-align: center;
+      margin-bottom: 2px;
+    }
+
+    .chat-multi-opt {
+      background: #141414;
+      border: 1.5px solid #252525;
+      border-radius: 14px;
+      padding: 13px 14px;
+      color: #ddd;
+      font-size: 13.5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.18s ease;
+    }
+
+    .chat-multi-opt.selected {
+      border-color: #895af6;
+      background: rgba(137,90,246,0.1);
+      color: #fff;
+    }
+
+    .multi-checkbox {
+      width: 20px;
+      height: 20px;
+      border-radius: 5px;
+      border: 1.5px solid #444;
+      background: #1e1e1e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.18s ease;
+    }
+
+    .chat-multi-opt.selected .multi-checkbox {
+      background: #895af6;
+      border-color: #895af6;
+    }
+
+    .multi-checkbox svg { display: none; }
+    .chat-multi-opt.selected .multi-checkbox svg { display: block; }
+
+    .btn-confirmar {
+      width: 100%;
+      background: #2a2a2a;
+      color: #555;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      border: none;
+      border-radius: 14px;
+      padding: 15px;
+      cursor: not-allowed;
+      transition: all 0.25s ease;
+      margin-top: 2px;
+    }
+
+    .btn-confirmar.ativo {
+      background: linear-gradient(135deg, #895af6, #7c3aed);
+      color: #fff;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(137,90,246,0.4);
+    }
+
+    /* Botão CTA final */
+    .chat-cta-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #895af6, #7c3aed);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      border: none;
+      border-radius: 16px;
+      padding: 18px;
+      cursor: pointer;
+      box-shadow: 0 4px 28px rgba(137,90,246,0.5);
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .chat-cta-btn::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 60%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+      animation: shimmer 2.5s infinite;
+    }
+
+    .chat-cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 36px rgba(137,90,246,0.6);
+    }
+
+    /* ===== RESULT PAGE ===== */
+    .result-page {
+      display: none;
+      width: 100%;
+      max-width: 480px;
+      padding: 32px 16px 40px;
+      text-align: center;
+    }
+
+    .result-page.active {
+      display: block;
+    }
+
+    .result-emoji {
+      font-size: 56px;
+      margin-bottom: 16px;
+    }
+
+    .result-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+
+    .result-title span {
+      color: #895af6;
+    }
+
+    .result-desc {
+      font-size: 14px;
+      color: #a1a1a1;
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+
+    .result-highlight {
+      background: rgba(137, 90, 246, 0.12);
+      border: 1px solid rgba(137, 90, 246, 0.3);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 24px;
+      text-align: left;
+    }
+
+    .result-highlight p {
+      font-size: 13px;
+      color: #ccc;
+      line-height: 1.6;
+    }
+
+    .result-highlight strong {
+      color: #895af6;
+    }
+
+    .btn-cta {
+      width: 100%;
+      background: linear-gradient(135deg, #895af6, #7c3aed);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      border: none;
+      border-radius: 15px;
+      padding: 18px 24px;
+      cursor: pointer;
+      box-shadow: 0 4px 24px rgba(137, 90, 246, 0.45);
+      transition: opacity 0.2s, transform 0.1s;
+    }
+
+    .btn-cta:hover {
+      opacity: 0.92;
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 400px) {
+      .lp-container { padding: 24px 14px 20px; }
+      .question-text { font-size: 15px; }
+      .result-title { font-size: 19px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===================== LANDING PAGE ===================== -->
+  <div class="lp-container" id="landingPage">
+
+    <div class="lp-logo-wrap">
+      <img src="logo.png.png" alt="Date Bot" style="width:100%;height:100%;object-fit:contain;border-radius:18px;" />
+    </div>
+
+
+<h1 class="lp-headline">
+      A Mensagem Exata Que Faz Ela<br>
+      <span class="highlight">Parar de Ignorar e Implorar</span><br>
+      por Um Encontro
+    </h1>
+
+    <p class="subtitle">
+      Teste revela o <span class="underline-bold">erro fatal</span> que
+      <span class="red-text">mata as conversas</span> antes mesmo delas começarem
+    </p>
+
+    <span class="tag-purple">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:6px;"><path d="M12 2l2.09 6.26L20 10l-5.91 1.74L12 18l-2.09-6.26L4 10l5.91-1.74z"/></svg>
+      e como inverter o jogo
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-left:6px;"><path d="M12 2l2.09 6.26L20 10l-5.91 1.74L12 18l-2.09-6.26L4 10l5.91-1.74z"/></svg>
+    </span>
+
+    <div class="mockup-wrap">
+      <img src="mockup_dms-3ryS6yay.webp" alt="Mockup de conversas no Instagram" />
+    </div>
+
+    <div class="social-proof">
+      <div class="social-proof-dots">
+        <div class="social-dot"><img src="avatar1.jpg" alt="" /></div>
+        <div class="social-dot"><img src="avatar2.jpg" alt="" /></div>
+        <div class="social-dot"><img src="avatar3.jpg" alt="" /></div>
+      </div>
+      +4.800 homens já fizeram o teste
+    </div>
+
+    <button class="btn-iniciar" id="btnIniciarTeste">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:8px;"><path d="M8 5v14l11-7z"/></svg>
+      INICIAR TESTE AGORA
+    </button>
+
+    <div class="warning-box">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" style="vertical-align:middle;margin-right:5px;"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <span class="atencao">Atenção:</span>
+      O teste só pode ser feito uma vez. Certifique que tem 2 minutos disponíveis para ir até o final.
+    </div>
+
+    <footer>
+      Ao clicar em alguma das opções, você concorda com os Termos de utilização e serviço,
+      Política de privacidade, Política de subscrição e Política de cookies
+    </footer>
+  </div>
+
+  <!-- ===================== MODAL DE CONFIRMAÇÃO ===================== -->
+  <div class="overlay" id="modalOverlay">
+    <div class="modal-card">
+      <h2>Antes de continuar confirme os itens abaixo:</h2>
+
+      <div class="checkbox-list">
+
+        <label class="checkbox-item" id="item1">
+          <input type="checkbox" id="check1" />
+          <div class="custom-checkbox">
+            <svg viewBox="0 0 12 10" fill="none">
+              <path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <span class="checkbox-label">Sou homem e tenho 18 anos ou mais</span>
+        </label>
+
+        <label class="checkbox-item" id="item2">
+          <input type="checkbox" id="check2" />
+          <div class="custom-checkbox">
+            <svg viewBox="0 0 12 10" fill="none">
+              <path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <span class="checkbox-label">Não vou usar o robô pra manipular ou prejudicar mulheres</span>
+        </label>
+
+        <label class="checkbox-item" id="item3">
+          <input type="checkbox" id="check3" />
+          <div class="custom-checkbox">
+            <svg viewBox="0 0 12 10" fill="none">
+              <path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <span class="checkbox-label">Entendo que o Date Bot NÃO PODE VIRALIZAR — me comprometo a não compartilhar com ninguém.</span>
+        </label>
+
+      </div>
+
+      <p class="modal-note">Se isso vazar, vai parar de funcionar. Quanto menos gente souber, melhor.</p>
+
+      <button class="btn-entrar" id="btnEntrar" disabled>ENTRAR</button>
+    </div>
+  </div>
+
+  <!-- ===================== QUIZ PAGE (CHAT) ===================== -->
+  <div class="quiz-page" id="quizPage">
+    <div class="chat-header">
+      <div class="chat-avatar">
+        <img src="logo.png.png" alt="Date Bot" />
+      </div>
+      <div class="chat-header-info">
+        <div class="chat-header-name">Date Bot</div>
+        <div class="chat-header-status"><span class="status-dot"></span> online</div>
+      </div>
+      <div class="chat-progress-bar-wrap">
+        <div class="chat-progress-track">
+          <div class="chat-progress-fill" id="chatProgressFill"></div>
+        </div>
+      </div>
+    </div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-options" id="chatOptions"></div>
+  </div>
+
+  <!-- ===================== RESULTADO ===================== -->
+  <div class="result-page" id="resultPage">
+    <div class="result-emoji">
+      <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#895af6" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2" fill="#895af6"/></svg>
+    </div>
+    <h2 class="result-title">Você Comete o <span>Erro Fatal</span> das Conversas</h2>
+    <p class="result-desc">
+      Baseado nas suas respostas, identificamos o padrão exato que está sabotando suas conversas
+      antes delas começarem de verdade.
+    </p>
+    <div class="result-highlight">
+      <p>
+        <strong>O problema:</strong> Você provavelmente manda mensagens genéricas, sem personalidade —
+        e isso faz você parecer igual a todos os outros. A boa notícia: é fácil de corrigir.<br><br>
+        <strong>A solução:</strong> O Date Bot gera a mensagem exata que faz ela te responder
+        e querer marcar um encontro.
+      </p>
+    </div>
+    <button class="btn-cta" onclick="window.location.href='configurando.html'">
+      QUERO CORRIGIR MEU ERRO AGORA
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:6px;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+  </div>
+
+  <!-- ===================== JAVASCRIPT ===================== -->
+  <script>
+    // ---- Dados do Quiz ----
+    const questions = [
+      {
+        text: "Quando você começa uma conversa com uma menina no Instagram, o que você geralmente manda primeiro?",
+        options: [
+          "Oi / Olá / Eae",
+          "Um elogio genérico tipo 'Você é muito linda'",
+          "Algo relacionado ao perfil ou story dela",
+          "Uma pergunta interessante ou inusitada"
+        ]
+      },
+      {
+        text: "Como você reage quando ela demora mais de 1 dia para responder?",
+        options: [
+          "Mando outro 'Oi' ou 'Sumiu?'",
+          "Fico ansioso mas não mando nada",
+          "Mando uma mensagem leve e despretenciosa",
+          "Sigo em frente e foco em outras"
+        ]
+      },
+      {
+        text: "Quando a conversa está indo bem, quando você propõe o encontro?",
+        options: [
+          "Nunca proponho, espero ela indicar",
+          "Só depois de muitos dias conversando",
+          "Proponho rápido mas de forma estranha",
+          "Na hora certa, de forma natural e direta"
+        ]
+      },
+      {
+        text: "Qual é o seu maior desafio nas conversas online?",
+        options: [
+          "Ela para de responder do nada",
+          "Não sei o que falar depois do 'oi'",
+          "As conversas ficam sem graça rápido",
+          "Ela responde, mas nunca quer se encontrar"
+        ]
+      },
+      {
+        text: "Quantas meninas você conseguiu marcar um encontro real nos últimos 3 meses?",
+        options: [
+          "Nenhuma",
+          "1 ou 2",
+          "3 ou 4",
+          "5 ou mais"
+        ]
+      },
+      {
+        text: "Como você costuma elogiar uma menina nas mensagens?",
+        options: [
+          "Falo que ela é linda / gostosa diretamente",
+          "Elogio algo específico que vi no perfil dela",
+          "Raramente elogio, tenho medo de parecer forçado",
+          "Uso humor ou ironia pra elogiar de forma indireta"
+        ]
+      },
+      {
+        text: "O que você faz quando ela manda uma resposta curta tipo 'kkk' ou 'hm'?",
+        options: [
+          "Fico sem saber o que responder e a conversa morre",
+          "Mando outro 'kkk' ou 'rs' de volta",
+          "Mudo de assunto e tento engajar de outro jeito",
+          "Faço uma pergunta aberta pra ela falar mais"
+        ]
+      },
+      {
+        text: "Como você age quando percebe que ela está interessada em você?",
+        options: [
+          "Fico com medo de estragar e fico mais cauteloso",
+          "Começo a mandar mensagens demais",
+          "Me comporto igual, sigo o ritmo natural",
+          "Avanço direto e proponho o encontro logo"
+        ]
+      },
+      {
+        text: "Qual dessas frases você mais usa ao iniciar uma conversa?",
+        options: [
+          "'Oi, tudo bem?'",
+          "'Você é muito bonita, posso te conhecer?'",
+          "'Vi seu story, achei interessante…'",
+          "Começo com algo engraçado ou um comentário único"
+        ]
+      },
+      {
+        text: "O que acontece na maioria das suas conversas após 2 ou 3 dias?",
+        options: [
+          "A conversa esfria e para sozinha",
+          "Ela some ou começa a responder cada vez menos",
+          "A gente continua conversando mas nunca sai",
+          "A gente marca ou já saiu"
+        ]
+      },
+      {
+        text: "Qual seu objetivo principal?",
+        options: ["Sair mais", "Conseguir namorada", "Ter várias ficantes", "Sair da seca"],
+        icons: [
+          `<span style="width:28px;height:28px;border-radius:8px;background:#ff6b2b;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M12 2c0 0-5 5-5 10a5 5 0 0010 0C17 7 12 2 12 2z"/></svg></span>`,
+          `<span style="width:28px;height:28px;border-radius:8px;background:#3b82f6;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="8" r="3"/><path d="M20 21a8 8 0 10-16 0"/></svg></span>`,
+          `<span style="width:28px;height:28px;border-radius:8px;background:#895af6;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></span>`,
+          `<span style="width:28px;height:28px;border-radius:8px;background:#ec4899;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></span>`
+        ]
+      },
+      {
+        text: "E qual tom combina mais contigo?",
+        subtitle: "(marca quantos quiser)",
+        type: "multi",
+        options: ["Cafajeste", "Don Juan", "Romântico", "Jogador marrento", "Debochado", "Homem de sucesso", "Alfa", "Cavalheiro sedutor"]
+      }
+    ];
+
+    let currentQuestion = 0;
+    let selectedOption = null;
+
+    // ---- Checkboxes do Modal ----
+    const checkboxItems = ['item1', 'item2', 'item3'];
+    const checks = ['check1', 'check2', 'check3'];
+
+    checkboxItems.forEach((id, i) => {
+      document.getElementById(id).addEventListener('click', function (e) {
+        e.preventDefault();
+        const checkEl = document.getElementById(checks[i]);
+        checkEl.checked = !checkEl.checked;
+        this.classList.toggle('checked', checkEl.checked);
+        updateEntrarBtn();
+      });
+    });
+
+    function updateEntrarBtn() {
+      const allChecked = checks.every(id => document.getElementById(id).checked);
+      const btn = document.getElementById('btnEntrar');
+      btn.disabled = !allChecked;
+      btn.classList.toggle('enabled', allChecked);
+    }
+
+    // ---- Abrir Modal ----
+    document.getElementById('btnIniciarTeste').addEventListener('click', () => {
+      document.getElementById('modalOverlay').classList.add('active');
+    });
+
+    // ---- Fechar modal clicando fora ----
+    document.getElementById('modalOverlay').addEventListener('click', function (e) {
+      if (e.target === this) {
+        this.classList.remove('active');
+      }
+    });
+
+    // ---- Entrar no Quiz ----
+    document.getElementById('btnEntrar').addEventListener('click', () => {
+      if (document.getElementById('btnEntrar').disabled) return;
+      document.getElementById('modalOverlay').classList.remove('active');
+      document.getElementById('landingPage').style.display = 'none';
+      document.getElementById('quizPage').classList.add('active');
+      showIntro();
+    });
+
+    // ---- Helpers do Chat ----
+    function scrollChat() {
+      const el = document.getElementById('chatMessages');
+      el.scrollTop = el.scrollHeight;
+    }
+
+    function addBotMessage(text) {
+      return new Promise(resolve => {
+        const messages = document.getElementById('chatMessages');
+
+        const typingRow = document.createElement('div');
+        typingRow.className = 'msg-row bot';
+        typingRow.innerHTML = `<div class="typing-bubble"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`;
+        messages.appendChild(typingRow);
+        scrollChat();
+
+        const delay = Math.min(600 + text.length * 18, 1400);
+        setTimeout(() => {
+          typingRow.remove();
+          const row = document.createElement('div');
+          row.className = 'msg-row bot';
+          row.innerHTML = `<div class="msg-bubble">${text}</div>`;
+          messages.appendChild(row);
+          scrollChat();
+          resolve();
+        }, delay);
+      });
+    }
+
+    function addUserMessage(text) {
+      const messages = document.getElementById('chatMessages');
+      const row = document.createElement('div');
+      row.className = 'msg-row user';
+      row.innerHTML = `<div class="msg-bubble">${text}</div>`;
+      messages.appendChild(row);
+      scrollChat();
+    }
+
+    function addBotImage(src) {
+      return new Promise(resolve => {
+        const messages = document.getElementById('chatMessages');
+
+        const typingRow = document.createElement('div');
+        typingRow.className = 'msg-row bot';
+        typingRow.innerHTML = `<div class="typing-bubble"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`;
+        messages.appendChild(typingRow);
+        scrollChat();
+
+        setTimeout(() => {
+          typingRow.remove();
+          const row = document.createElement('div');
+          row.className = 'msg-row bot';
+          row.innerHTML = `<div class="msg-bubble" style="padding:4px;background:#1c1c1e;border-radius:14px 14px 14px 4px;overflow:hidden;max-width:70%;"><img src="${src}" style="width:100%;border-radius:10px;display:block;" /></div>`;
+          messages.appendChild(row);
+          scrollChat();
+          resolve();
+        }, 900);
+      });
+    }
+
+    function wait(ms) {
+      return new Promise(r => setTimeout(r, ms));
+    }
+
+    // ---- Intro ----
+    const introMessages = [
+      "Opa!",
+      "Antes de liberar seu robô, preciso te fazer 10 perguntas rápidas.",
+      "Com base nas suas respostas, vou montar a estratégia ideal pra você.",
+      "Pronto pra isso?"
+    ];
+
+    async function showIntro() {
+      document.getElementById('chatOptions').innerHTML = '';
+      for (const msg of introMessages) {
+        await addBotMessage(msg);
+        await wait(150);
+      }
+      const opts = document.getElementById('chatOptions');
+      const btn = document.createElement('button');
+      btn.className = 'chat-opt-btn';
+      btn.style.justifyContent = 'center';
+      btn.style.fontWeight = '700';
+      btn.style.fontSize = '15px';
+      btn.textContent = 'Bora!';
+      btn.onclick = async () => {
+        addUserMessage('Bora!');
+        opts.innerHTML = '';
+        await wait(400);
+        await addBotMessage('Quando você domina essa técnica...');
+        await wait(150);
+        await addBotMessage('As conversas viram ISSO:');
+        await wait(150);
+        await addBotImage('imgquiz1.jpg');
+        await wait(150);
+        await addBotMessage('Ela mandando mensagem.');
+        await wait(150);
+        await addBotMessage('Sem você pedir.');
+        await wait(150);
+        await addBotMessage('Porque ela QUER te impressionar.');
+        await wait(150);
+        await addBotMessage('Porque você virou o prêmio.');
+        await wait(300);
+        loadChatQuestion();
+      };
+      opts.appendChild(btn);
+    }
+
+    // ---- Perguntas ----
+    function updateChatSteps() {
+      const pct = (currentQuestion / questions.length) * 100;
+      document.getElementById('chatProgressFill').style.width = pct + '%';
+    }
+
+
+
+    async function loadChatQuestion() {
+      const q = questions[currentQuestion];
+      const opts = document.getElementById('chatOptions');
+      opts.innerHTML = '';
+      updateChatSteps();
+
+      await addBotMessage(q.text);
+      await wait(200);
+
+      if (q.type === 'multi') {
+        // Multi-select
+        if (q.subtitle) {
+          const lbl = document.createElement('div');
+          lbl.className = 'chat-multi-label';
+          lbl.textContent = q.subtitle;
+          opts.appendChild(lbl);
+        }
+
+        const selected = new Set();
+        q.options.forEach(opt => {
+          const btn = document.createElement('div');
+          btn.className = 'chat-multi-opt';
+          btn.innerHTML = `<div class="multi-checkbox"><svg width="10" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>${opt}</span>`;
+          btn.onclick = () => {
+            btn.classList.toggle('selected');
+            selected.has(opt) ? selected.delete(opt) : selected.add(opt);
+            confirmar.classList.toggle('ativo', selected.size > 0);
+          };
+          opts.appendChild(btn);
+        });
+
+        const confirmar = document.createElement('button');
+        confirmar.className = 'btn-confirmar';
+        confirmar.textContent = 'Confirmar';
+        confirmar.onclick = () => {
+          if (!selected.size) return;
+          addUserMessage([...selected].join(', '));
+          opts.innerHTML = '';
+          currentQuestion++;
+          setTimeout(() => showChatEnding(), 600);
+        };
+        opts.appendChild(confirmar);
+
+      } else {
+        // Single-select normal
+        const letters = ['A', 'B', 'C', 'D'];
+        q.options.forEach((opt, i) => {
+          const btn = document.createElement('button');
+          btn.className = 'chat-opt-btn';
+          const icon = q.icons
+            ? q.icons[i]
+            : `<span class="chat-opt-letter">${letters[i]}</span>`;
+          btn.innerHTML = `${icon}<span>${opt}</span>`;
+          btn.onclick = () => {
+            addUserMessage(opt);
+            opts.innerHTML = '';
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+              setTimeout(() => loadChatQuestion(), 600);
+            } else {
+              setTimeout(() => loadChatQuestion(), 600);
+            }
+          };
+          opts.appendChild(btn);
+        });
+      }
+    }
+
+    // ---- Encerramento ----
+    async function showChatEnding() {
+      const opts = document.getElementById('chatOptions');
+      opts.innerHTML = '';
+      const msgs = [
+        "Pronto.",
+        "Vou começar a configurar seu robô.",
+        "Enquanto isso...",
+        "Assiste esse vídeo que explica como usar o robô pra ter resultado HOJE.",
+        "É sério.",
+        "Tem cara que conseguiu no mesmo dia.",
+        "Vê com atenção."
+      ];
+      for (const msg of msgs) {
+        await addBotMessage(msg);
+        await wait(150);
+      }
+      const cta = document.createElement('button');
+      cta.className = 'chat-cta-btn';
+      cta.textContent = 'ASSISTIR VIDEO TUTORIAL';
+      cta.onclick = () => { window.location.href = 'configurando.html'; };
+      opts.appendChild(cta);
+    }
+  </script>
+</body>
+</html>
