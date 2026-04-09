@@ -1,0 +1,716 @@
+/* =============================================================
+   DATE BOT — LANDING PAGE + MODAL
+   ============================================================= */
+
+/* ===== RESET & BASE ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #000;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+/* =============================================================
+   LANDING PAGE
+   ============================================================= */
+
+.lp-container {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px 28px;
+  position: relative;
+}
+
+/* Glow de fundo */
+.lp-container::before {
+  content: '';
+  position: fixed;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(137, 90, 246, 0.18) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.lp-container > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ----- Logo ----- */
+.lp-logo-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 110px;
+  height: 110px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  margin-bottom: 22px;
+  overflow: visible;
+  padding: 0;
+}
+
+/* ----- Badge ----- */
+.lp-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(137, 90, 246, 0.12);
+  border: 1px solid rgba(137, 90, 246, 0.35);
+  border-radius: 99px;
+  padding: 5px 14px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #b794ff;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.lp-badge span {
+  width: 6px;
+  height: 6px;
+  background: #895af6;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 6px #895af6;
+}
+
+/* ----- Headline ----- */
+.lp-headline {
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.3;
+  margin-bottom: 18px;
+  max-width: 420px;
+  letter-spacing: -0.5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+/* Cada linha da headline entra separadamente */
+.lp-line {
+  display: block;
+}
+
+/* Gradiente roxo animado na linha de destaque */
+.lp-headline .highlight {
+  background: linear-gradient(90deg, #a78bfa, #c084fc, #a78bfa);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientMove 4s ease infinite;
+}
+
+@keyframes gradientMove {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Linha de destaque com glow sutil */
+.highlight-line {
+  position: relative;
+}
+
+.highlight-line::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 10%;
+  width: 80%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.5), transparent);
+  border-radius: 2px;
+  animation: underlineGlow 3s ease-in-out infinite;
+}
+
+@keyframes underlineGlow {
+  0%, 100% { opacity: 0.3; transform: scaleX(0.8); }
+  50%      { opacity: 1; transform: scaleX(1); }
+}
+
+/* ----- Subtitle ----- */
+.subtitle {
+  text-align: center;
+  font-size: 16px;
+  line-height: 1.65;
+  margin-bottom: 16px;
+  color: #ddd;
+  max-width: 380px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(137, 90, 246, 0.15);
+  border-radius: 14px;
+  padding: 14px 18px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Brilho que passa pela borda do subtitle */
+.subtitle::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -100%;
+  width: 60%;
+  height: calc(100% + 2px);
+  background: linear-gradient(90deg, transparent, rgba(137, 90, 246, 0.2), transparent);
+  animation: subtitleShine 5s ease infinite;
+  pointer-events: none;
+}
+
+@keyframes subtitleShine {
+  0%   { left: -100%; }
+  50%  { left: 200%; }
+  100% { left: 200%; }
+}
+
+.subtitle .underline-bold {
+  font-weight: 800;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  color: #fff;
+}
+
+.subtitle .red-text {
+  color: #f87171;
+  font-weight: 700;
+}
+
+/* ----- Tag roxa ----- */
+.tag-purple {
+  background: linear-gradient(135deg, #7c3aed, #9b6dff);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 9px 22px;
+  border-radius: 99px;
+  display: inline-block;
+  margin-bottom: 28px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 0 20px rgba(137, 90, 246, 0.5), 0 0 40px rgba(137, 90, 246, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* =============================================================
+   SIMULADOR DE DM (mini conversa Instagram)
+   ============================================================= */
+
+/* Container principal do simulador */
+.dm-simulator {
+  width: 100%;
+  max-width: 380px;
+  background: #111;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  margin-bottom: 32px;
+  position: relative;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+  font-family: 'Inter', sans-serif;
+}
+
+/* Glow roxo embaixo do simulador */
+.dm-simulator::after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 40px;
+  background: rgba(137, 90, 246, 0.25);
+  filter: blur(24px);
+  border-radius: 50%;
+  z-index: -1;
+}
+
+/* ----- Área de mensagens ----- */
+.dm-messages {
+  padding: 14px 12px;
+  height: 520px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 6px;
+  transition: opacity 0.4s ease;
+  overflow: hidden;
+}
+
+/* Fade out para transição entre roteiros */
+.dm-messages.fading {
+  opacity: 0;
+}
+
+/* ----- Balões do DM ----- */
+.dm-row {
+  display: flex;
+  opacity: 0;
+  transform: translateY(6px);
+  animation: dmMsgIn 0.35s ease forwards;
+}
+
+.dm-row.left {
+  justify-content: flex-start;
+}
+
+.dm-row.right {
+  justify-content: flex-end;
+}
+
+/* Balão da garota (esquerda, cinza) */
+.dm-bubble {
+  max-width: 78%;
+  padding: 10px 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #fff;
+}
+
+.dm-row.left .dm-bubble {
+  background: #262626;
+  border-radius: 16px 16px 16px 4px;
+}
+
+/* Balão do lead "errado" (direita, cinza escuro com borda vermelha sutil) */
+.dm-row.right .dm-bubble {
+  background: #333;
+  border-radius: 16px 16px 4px 16px;
+  color: #aaa;
+}
+
+/* Balão do lead "com DateBot" (direita, roxo) */
+.dm-row.right .dm-bubble.dm-correct {
+  background: linear-gradient(135deg, #895af6, #7c3aed);
+  color: #fff;
+}
+
+/* Label acima do balão ("Você responderia:" / "Responda assim:") */
+.dm-label {
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: right;
+  padding-right: 4px;
+  opacity: 0;
+  transform: translateY(6px);
+  animation: dmMsgIn 0.35s ease forwards;
+}
+
+.dm-label.wrong {
+  color: #f87171;
+}
+
+.dm-label.correct {
+  color: #22c55e;
+}
+
+/* Imagem dentro do DM */
+.dm-photo {
+  max-width: 30%;
+  border-radius: 12px;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(6px);
+  animation: dmMsgIn 0.35s ease forwards;
+}
+
+.dm-photo img {
+  width: 100%;
+  display: block;
+  border-radius: 12px;
+}
+
+/* Risco no texto errado */
+.dm-strikethrough {
+  text-decoration: line-through;
+  text-decoration-color: #f87171;
+}
+
+/* Animação de entrada */
+@keyframes dmMsgIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ----- Botão CTA principal ----- */
+.btn-iniciar {
+  width: 100%;
+  background: linear-gradient(135deg, #9b6dff, #7c3aed);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  border: none;
+  border-radius: 16px;
+  padding: 19px 24px;
+  cursor: pointer;
+  margin-bottom: 14px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 28px rgba(137, 90, 246, 0.5);
+  position: relative;
+  overflow: hidden;
+  animation: ctaPulse 2.5s ease-in-out infinite 1.2s;
+}
+
+.btn-iniciar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+  animation: shimmer 2.5s infinite;
+}
+
+.btn-iniciar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 36px rgba(137, 90, 246, 0.6);
+}
+
+.btn-iniciar:active {
+  transform: translateY(0);
+}
+
+/* ----- Warning box ----- */
+.warning-box {
+  width: 100%;
+  background: rgba(255, 200, 50, 0.06);
+  border: 1px solid rgba(255, 200, 50, 0.2);
+  border-radius: 14px;
+  padding: 14px 16px;
+  font-size: 13px;
+  color: #ddd;
+  text-align: center;
+  margin-bottom: 28px;
+  line-height: 1.5;
+}
+
+.warning-box .atencao {
+  color: #fbbf24;
+  font-weight: 700;
+}
+
+/* ----- Prova social ----- */
+.social-proof {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+}
+
+.social-proof-dots {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.social-dot {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid #111;
+  margin-left: -8px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.social-dot:first-child {
+  margin-left: 0;
+}
+
+.social-dot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.social-proof-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 12px;
+  color: #999;
+  min-width: 0;
+}
+
+.social-proof-line {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex-wrap: wrap;
+}
+
+/* Bolinha verde pulsante "ao vivo" */
+.live-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  background: #22c55e;
+  border-radius: 50%;
+  margin-right: 5px;
+  flex-shrink: 0;
+  box-shadow: 0 0 6px #22c55e;
+  animation: livePulse 1.5s ease-in-out infinite;
+}
+
+@keyframes livePulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 4px #22c55e; }
+  50%      { opacity: 0.4; box-shadow: 0 0 10px #22c55e; }
+}
+
+/* Contador animado */
+.social-counter {
+  font-weight: 700;
+  color: #ccc;
+  transition: color 0.3s;
+}
+
+/* Feed ao vivo */
+.live-feed {
+  font-size: 10.5px;
+  color: #22c55e;
+  height: 15px;
+  overflow: hidden;
+  position: relative;
+}
+
+.live-feed-item {
+  position: absolute;
+  left: 0;
+  top: 0;
+  white-space: nowrap;
+  animation: feedSlide 3.5s ease forwards;
+}
+
+@keyframes feedSlide {
+  0%   { opacity: 0; transform: translateY(8px); }
+  12%  { opacity: 1; transform: translateY(0); }
+  80%  { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-8px); }
+}
+
+/* ----- Footer ----- */
+footer {
+  width: 100%;
+  text-align: center;
+  font-size: 11px;
+  color: #444;
+  padding: 0 16px 24px;
+  line-height: 1.6;
+}
+
+/* =============================================================
+   MODAL DE CONFIRMAÇÃO
+   ============================================================= */
+
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  animation: fadeIn 0.2s ease;
+}
+
+.overlay.active {
+  display: flex;
+}
+
+.modal-card {
+  background: #1a1a1a;
+  border-radius: 22px;
+  padding: 28px 24px;
+  width: 100%;
+  max-width: 420px;
+  animation: scaleIn 0.25s ease;
+}
+
+.modal-card h2 {
+  font-size: 19px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
+/* ----- Checkboxes ----- */
+.checkbox-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.checkbox-item input[type="checkbox"] {
+  display: none;
+}
+
+.custom-checkbox {
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  border-radius: 50%;
+  border: 2px solid #895af6;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  margin-top: 1px;
+}
+
+.custom-checkbox svg {
+  display: none;
+  width: 12px;
+  height: 12px;
+}
+
+.checkbox-item.checked .custom-checkbox {
+  background: #895af6;
+}
+
+.checkbox-item.checked .custom-checkbox svg {
+  display: block;
+}
+
+.checkbox-label {
+  font-size: 13.5px;
+  color: #fff;
+  line-height: 1.5;
+}
+
+.modal-note {
+  font-size: 11.5px;
+  color: #a1a1a1;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+/* ----- Botão entrar ----- */
+.btn-entrar {
+  width: 100%;
+  background: #4d4d4d;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  border: none;
+  border-radius: 15px;
+  padding: 17px 24px;
+  cursor: not-allowed;
+  transition: background 0.3s, cursor 0.2s, box-shadow 0.3s;
+}
+
+.btn-entrar.enabled {
+  background: linear-gradient(135deg, #895af6, #7c3aed);
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(137, 90, 246, 0.4);
+}
+
+.btn-entrar.enabled:hover {
+  opacity: 0.92;
+}
+
+/* =============================================================
+   ANIMAÇÕES
+   ============================================================= */
+
+/* Entrada escalonada — cada elemento entra com delay baseado em --delay */
+.anim-in {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: enterUp 0.6s ease forwards;
+  animation-delay: calc(var(--delay, 0) * 0.15s + 0.1s);
+}
+
+@keyframes enterUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0%   { left: -100%; }
+  100% { left: 200%; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.92); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+/* Pulse sutil no botão CTA para chamar atenção */
+@keyframes ctaPulse {
+  0%, 100% { box-shadow: 0 4px 28px rgba(137, 90, 246, 0.5); }
+  50%      { box-shadow: 0 4px 40px rgba(137, 90, 246, 0.8), 0 0 60px rgba(137, 90, 246, 0.3); }
+}
+
+/* =============================================================
+   RESPONSIVO
+   ============================================================= */
+
+@media (max-width: 400px) {
+  .lp-container {
+    padding: 24px 14px 20px;
+  }
+
+  .lp-headline {
+    font-size: 25px;
+  }
+
+  .dm-messages {
+    height: 460px;
+  }
+
+  .dm-bubble {
+    font-size: 12px;
+  }
+}

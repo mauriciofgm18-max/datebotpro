@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mv \"c:/Users/Guilherme/Desktop/ROBO V2/site robo/css/styles.css\" \"c:/Users/Guilherme/Desktop/ROBO V2/site robo/styles.css\")",
+      "Bash(mv \"c:/Users/Guilherme/Desktop/ROBO V2/site robo/js/main.js\" \"c:/Users/Guilherme/Desktop/ROBO V2/site robo/main.js\")",
+      "Bash(rmdir \"c:/Users/Guilherme/Desktop/ROBO V2/site robo/css\" \"c:/Users/Guilherme/Desktop/ROBO V2/site robo/js\")",
+      "WebFetch(domain:start.labiadecachorro.com)",
+      "Bash(identify \"c:/Users/Guilherme/Desktop/ROBO V2/site robo/foto hamburguer.webp\")"
+    ]
+  }
+}

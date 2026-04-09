@@ -1,0 +1,581 @@
+/* =============================================================
+   DATE BOT — CHAT
+   Página de conversa interativa com o bot.
+   ============================================================= */
+
+
+/* =============================================================
+   1. RESET & BASE
+   Remove margens padrão e define estilos globais.
+   ============================================================= */
+
+* {
+  margin: 0;                                      /* Remove margem padrão de todos os elementos */
+  padding: 0;                                     /* Remove padding padrão de todos os elementos */
+  box-sizing: border-box;                         /* Inclui borda e padding no cálculo de largura */
+  -webkit-tap-highlight-color: transparent;        /* Remove destaque azul ao tocar em elementos no mobile */
+}
+
+html {
+  height: 100%;                                   /* Garante que o html ocupe toda a altura da tela */
+}
+
+body {
+  background-color: #000;                         /* Fundo preto atrás do container */
+  color: #fff;                                    /* Cor de texto padrão: branco */
+  font-family: 'Inter', sans-serif;                /* Fonte Inter do Google Fonts */
+  height: 100%;                                   /* Ocupa toda a altura da tela */
+  display: flex;                                  /* Flexbox para centralizar o container */
+  justify-content: center;                        /* Centraliza horizontalmente */
+  align-items: center;                            /* Centraliza verticalmente */
+  overflow: hidden;                               /* Impede scroll no body (scroll fica dentro do chat) */
+}
+
+
+/* =============================================================
+   2. CONTAINER PRINCIPAL
+   Caixa vertical que contém todo o chat.
+   No mobile: ocupa 100% da tela.
+   No desktop: coluna centralizada com largura máxima.
+   ============================================================= */
+
+.chat-container {
+  width: 100%;                                    /* Largura total no mobile */
+  max-width: 480px;                               /* Limite de largura (simula celular) */
+  height: 100%;                                   /* Altura total da tela */
+  display: flex;                                  /* Flexbox vertical */
+  flex-direction: column;                         /* Empilha header + scroll verticalmente */
+  background: #0a0a0a;                            /* Fundo levemente mais claro que o body */
+  position: relative;
+  overflow: hidden;                               /* Impede conteúdo vazar fora do container */
+}
+
+/* Desktop médio (tablets): bordas laterais sutis */
+@media (min-width: 481px) {
+  .chat-container {
+    height: 100vh;                                /* Fixa na altura total da viewport */
+    border-left: 1px solid rgba(255, 255, 255, 0.06);   /* Borda esquerda sutil */
+    border-right: 1px solid rgba(255, 255, 255, 0.06);  /* Borda direita sutil */
+  }
+}
+
+/* Desktop grande: coluna mais estreita com glow roxo */
+@media (min-width: 769px) {
+  .chat-container {
+    max-width: 420px;                             /* Mais estreito em telas grandes */
+    box-shadow: 0 0 60px rgba(137, 90, 246, 0.08); /* Glow roxo sutil ao redor */
+  }
+}
+
+
+/* =============================================================
+   3. HEADER (compacto)
+   Barra superior com avatar, nome, status e prova social.
+   ============================================================= */
+
+.chat-header {
+  display: flex;                                  /* Itens lado a lado */
+  align-items: center;                            /* Alinha verticalmente ao centro */
+  gap: 10px;                                      /* Espaço entre avatar, info e prova social */
+  padding: 8px 16px;                              /* Espaçamento interno */
+  padding-top: calc(8px + env(safe-area-inset-top, 0px)); /* Respeita o notch do iPhone */
+  background: linear-gradient(180deg, rgba(137, 90, 246, 0.10) 0%, transparent 100%); /* Gradiente roxo sutil */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06); /* Linha divisória inferior */
+  flex-shrink: 0;                                 /* Não encolhe quando o chat cresce */
+}
+
+/* ----- Avatar (foto de perfil do bot) ----- */
+.chat-avatar {
+  width: 36px;                                    /* Largura do avatar */
+  height: 36px;                                   /* Altura do avatar */
+  border-radius: 50%;                             /* Circular */
+  overflow: hidden;                               /* Corta a imagem que ultrapassar */
+  flex-shrink: 0;                                 /* Não encolhe */
+  border: 2px solid rgba(137, 90, 246, 0.5);     /* Borda roxa */
+  box-shadow: 0 0 10px rgba(137, 90, 246, 0.2);  /* Glow roxo ao redor */
+}
+
+.chat-avatar img {
+  width: 100%;                                    /* Imagem ocupa todo o espaço */
+  height: 100%;
+  object-fit: cover;                              /* Corta proporcionalmente sem distorcer */
+}
+
+/* ----- Info (nome + status) ----- */
+.chat-header-info {
+  display: flex;
+  flex-direction: column;                         /* Nome em cima, status embaixo */
+  gap: 1px;
+}
+
+.chat-header-name {
+  font-size: 14px;                                /* Tamanho do nome */
+  font-weight: 700;                               /* Negrito */
+  color: #fff;
+}
+
+.chat-header-status {
+  font-size: 11px;                                /* Tamanho do texto "online agora" */
+  color: #22c55e;                                 /* Verde */
+  display: flex;
+  align-items: center;
+  gap: 4px;                                       /* Espaço entre bolinha e texto */
+}
+
+/* Bolinha verde pulsante de "online" */
+.status-dot {
+  width: 6px;
+  height: 6px;
+  background: #22c55e;                            /* Verde */
+  border-radius: 50%;                             /* Circular */
+  display: inline-block;
+  box-shadow: 0 0 6px #22c55e;                    /* Glow verde */
+  animation: statusPulse 2s ease-in-out infinite; /* Pulsa infinitamente */
+}
+
+@keyframes statusPulse {
+  0%, 100% { opacity: 1; }                        /* Visível no início e fim */
+  50%      { opacity: 0.5; }                      /* Meio transparente no meio */
+}
+
+/* ----- Prova social (X usando agora) ----- */
+.chat-social-proof {
+  margin-left: auto;                              /* Empurra para a direita do header */
+  display: flex;
+  align-items: center;
+  gap: 4px;                                       /* Espaço entre bolinha e texto */
+  font-size: 10px;                                /* Texto pequeno e discreto */
+  color: #666;                                    /* Cinza claro */
+  white-space: nowrap;                            /* Não quebra linha */
+}
+
+/* Bolinha verde da prova social */
+.social-dot-green {
+  width: 5px;
+  height: 5px;
+  background: #22c55e;                            /* Verde */
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 4px #22c55e;                    /* Glow sutil */
+  animation: statusPulse 2s ease-in-out infinite; /* Mesma pulsação do status */
+}
+
+/* Número animado do contador */
+.social-count {
+  font-weight: 700;                               /* Negrito para destacar o número */
+  color: #999;                                    /* Levemente mais claro que o texto ao redor */
+  transition: color 0.3s;                         /* Transição suave no flash */
+}
+
+
+/* =============================================================
+   4. ÁREA DE SCROLL
+   Container que permite rolar as mensagens e opções.
+   ============================================================= */
+
+.chat-scroll {
+  flex: 1;                                        /* Ocupa todo o espaço restante abaixo do header */
+  overflow-y: auto;                               /* Permite scroll vertical */
+  -webkit-overflow-scrolling: touch;              /* Scroll suave no iOS */
+  min-height: 0;                                  /* Fix para flexbox não estourar */
+}
+
+/* Esconde a barra de scroll (visual limpo) */
+.chat-scroll::-webkit-scrollbar {
+  width: 0;
+}
+
+
+/* =============================================================
+   5. MENSAGENS
+   Container das mensagens (balões do bot e do usuário).
+   ============================================================= */
+
+.chat-messages {
+  padding: 16px 14px;                             /* Espaçamento interno */
+  padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)); /* Respeita barra do iPhone */
+  display: flex;
+  flex-direction: column;                         /* Mensagens empilhadas verticalmente */
+  gap: 6px;                                       /* Espaço entre cada mensagem */
+}
+
+/* ----- Linha de mensagem (container de cada balão) ----- */
+.msg-row {
+  display: flex;
+  animation: msgIn 0.3s ease;                     /* Animação de entrada */
+}
+
+.msg-row.bot {
+  justify-content: flex-start;                    /* Balão do bot alinhado à esquerda */
+}
+
+.msg-row.user {
+  justify-content: flex-end;                      /* Balão do usuário alinhado à direita */
+}
+
+/* ----- Balões de mensagem ----- */
+.msg-bubble {
+  max-width: 82%;                                 /* Balão nunca ocupa mais de 82% da largura */
+  padding: 12px 16px;                             /* Espaçamento interno do balão */
+  font-size: 14.5px;                              /* Tamanho do texto */
+  line-height: 1.55;                              /* Espaçamento entre linhas */
+  color: #fff;
+  word-wrap: break-word;                          /* Quebra palavras muito longas */
+  overflow-wrap: break-word;
+}
+
+/* Balão do bot: fundo escuro, canto inferior esquerdo apontado */
+.msg-row.bot .msg-bubble {
+  background: #1c1c1e;
+  border-radius: 18px 18px 18px 4px;
+}
+
+/* Balão do usuário: gradiente roxo, canto inferior direito apontado */
+.msg-row.user .msg-bubble {
+  background: linear-gradient(135deg, #895af6, #7c3aed);
+  border-radius: 18px 18px 4px 18px;
+}
+
+/* ----- Imagem enviada no chat ----- */
+.msg-bubble.msg-image {
+  padding: 4px;                                   /* Padding mínimo ao redor da imagem */
+  background: #1c1c1e;
+  border-radius: 14px 14px 14px 4px;
+  overflow: hidden;
+  max-width: 65%;                                 /* Imagem não ocupa mais de 65% da largura */
+}
+
+.msg-bubble.msg-image img {
+  width: 100%;                                    /* Imagem ocupa toda a largura do balão */
+  border-radius: 10px;
+  display: block;
+}
+
+/* ----- Indicador de digitação (3 bolinhas) ----- */
+.typing-bubble {
+  background: #1c1c1e;                            /* Mesmo fundo do balão do bot */
+  padding: 12px 18px;
+  border-radius: 18px 18px 18px 4px;              /* Mesmo formato do balão */
+  display: flex;
+  gap: 5px;                                       /* Espaço entre as bolinhas */
+  align-items: center;
+}
+
+.typing-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #555;                               /* Cinza */
+  animation: typingBounce 1.2s infinite;          /* Animação de pulo */
+}
+
+.typing-dot:nth-child(2) { animation-delay: 0.2s; } /* Segunda bolinha com atraso */
+.typing-dot:nth-child(3) { animation-delay: 0.4s; } /* Terceira bolinha com mais atraso */
+
+@keyframes typingBounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }  /* Posição normal, semi-transparente */
+  30%           { transform: translateY(-5px); opacity: 1; }  /* Pulo para cima, visível */
+}
+
+
+/* =============================================================
+   6. OPÇÕES INLINE (dentro do chat, acompanha scroll)
+   Wrapper dos botões de resposta que fica dentro do chatMessages.
+   ============================================================= */
+
+.chat-options-inline {
+  display: flex;
+  flex-direction: column;                         /* Botões empilhados verticalmente */
+  gap: 8px;                                       /* Espaço entre botões */
+  padding: 10px 0;                                /* Espaço acima e abaixo do grupo */
+  animation: msgIn 0.3s ease;                     /* Animação de entrada (igual mensagem) */
+}
+
+/* ----- Botão de opção (A, B, C, D) ----- */
+.chat-opt-btn {
+  background: rgba(137, 90, 246, 0.1);            /* Fundo roxo translúcido */
+  border: 1.5px solid rgba(137, 90, 246, 0.35);  /* Borda roxa */
+  border-radius: 14px;                            /* Cantos arredondados */
+  padding: 13px 16px;                             /* Espaçamento interno */
+  color: #fff;                                    /* Texto branco */
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.18s ease;                     /* Transição suave no hover */
+  display: flex;
+  align-items: center;
+  gap: 10px;                                      /* Espaço entre letra e texto */
+  line-height: 1.4;
+}
+
+/* Quadrado com a letra (A, B, C, D) */
+.chat-opt-letter {
+  min-width: 28px;
+  height: 28px;
+  background: rgba(137, 90, 246, 0.2);            /* Fundo roxo claro */
+  border: 1px solid rgba(137, 90, 246, 0.5);     /* Borda roxa */
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #b794ff;                                 /* Roxo claro */
+  flex-shrink: 0;                                 /* Não encolhe */
+  transition: all 0.18s ease;
+}
+
+/* Hover nos botões de opção */
+.chat-opt-btn:hover {
+  border-color: #895af6;                          /* Borda mais forte */
+  background: rgba(137, 90, 246, 0.18);           /* Fundo mais visível */
+  color: #fff;
+  box-shadow: 0 0 16px rgba(137, 90, 246, 0.2);  /* Glow roxo */
+}
+
+.chat-opt-btn:hover .chat-opt-letter {
+  background: #895af6;                            /* Fundo roxo sólido */
+  border-color: #895af6;
+  color: #fff;                                    /* Letra fica branca */
+}
+
+/* Efeito ao clicar */
+.chat-opt-btn:active {
+  transform: scale(0.98);                         /* Leve encolhida */
+}
+
+
+/* =============================================================
+   7. BOTÃO DE AÇÃO (Bora!, Vamos!, Continuar, Liberar resposta)
+   Botão grande roxo com efeito shimmer.
+   ============================================================= */
+
+.chat-action-btn {
+  width: 100%;                                    /* Largura total */
+  background: linear-gradient(135deg, #9b6dff, #7c3aed); /* Gradiente roxo */
+  color: #fff;
+  font-size: 15px;
+  font-weight: 800;                               /* Extra bold */
+  letter-spacing: 1.5px;                          /* Espaçamento entre letras */
+  border: none;
+  border-radius: 16px;
+  padding: 18px 24px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 28px rgba(137, 90, 246, 0.5); /* Sombra roxa */
+  position: relative;
+  overflow: hidden;                               /* Esconde o shimmer fora do botão */
+}
+
+/* Efeito shimmer (brilho que passa da esquerda pra direita) */
+.chat-action-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;                                    /* Começa fora do botão à esquerda */
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+  animation: shimmer 2.5s infinite;               /* Loop infinito */
+}
+
+/* Hover: sobe e aumenta sombra */
+.chat-action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 36px rgba(137, 90, 246, 0.6);
+}
+
+/* Clique: volta ao lugar */
+.chat-action-btn:active {
+  transform: translateY(0);
+}
+
+
+/* =============================================================
+   8. BOTÃO CTA FINAL
+   Botão para redirecionar o usuário (ex: ir para VSL).
+   Mesmo estilo do botão de ação, mas pode ter uso diferente.
+   ============================================================= */
+
+.chat-cta-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #895af6, #7c3aed);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  border: none;
+  border-radius: 16px;
+  padding: 18px;
+  cursor: pointer;
+  box-shadow: 0 4px 28px rgba(137, 90, 246, 0.5);
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.chat-cta-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+  animation: shimmer 2.5s infinite;
+}
+
+.chat-cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 36px rgba(137, 90, 246, 0.6);
+}
+
+
+/* =============================================================
+   9. MULTI-SELECT (selecionar múltiplas opções)
+   Usado quando o lead pode marcar mais de uma resposta.
+   ============================================================= */
+
+/* Label descritivo acima das opções (ex: "marca quantos quiser") */
+.chat-multi-label {
+  font-size: 11px;
+  color: #666;
+  text-align: center;
+  margin-bottom: 2px;
+}
+
+/* Cada opção multi-select */
+.chat-multi-opt {
+  background: rgba(137, 90, 246, 0.1);
+  border: 1.5px solid rgba(137, 90, 246, 0.35);
+  border-radius: 14px;
+  padding: 13px 16px;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.18s ease;
+}
+
+/* Opção selecionada: destaque roxo */
+.chat-multi-opt.selected {
+  border-color: #895af6;
+  background: rgba(137, 90, 246, 0.18);
+  color: #fff;
+}
+
+/* Checkbox visual dentro da opção */
+.multi-checkbox {
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  border: 1.5px solid rgba(137, 90, 246, 0.5);
+  background: rgba(137, 90, 246, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.18s ease;
+}
+
+/* Checkbox quando selecionado */
+.chat-multi-opt.selected .multi-checkbox {
+  background: #895af6;
+  border-color: #895af6;
+}
+
+/* Ícone de check — escondido por padrão */
+.multi-checkbox svg {
+  display: none;
+}
+
+/* Ícone de check — aparece quando selecionado */
+.chat-multi-opt.selected .multi-checkbox svg {
+  display: block;
+}
+
+/* Botão "Confirmar" do multi-select — desabilitado por padrão */
+.btn-confirmar {
+  width: 100%;
+  background: #2a2a2a;                            /* Cinza escuro (desabilitado) */
+  color: #555;                                    /* Texto cinza */
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  border: none;
+  border-radius: 14px;
+  padding: 15px;
+  cursor: not-allowed;                            /* Cursor "proibido" */
+  transition: all 0.25s ease;
+  margin-top: 2px;
+}
+
+/* Botão "Confirmar" ativo — quando pelo menos 1 opção foi marcada */
+.btn-confirmar.ativo {
+  background: linear-gradient(135deg, #895af6, #7c3aed); /* Gradiente roxo */
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(137, 90, 246, 0.4);
+}
+
+
+/* =============================================================
+   10. ANIMAÇÕES GLOBAIS
+   ============================================================= */
+
+/* Entrada de mensagem: sobe e aparece */
+@keyframes msgIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Shimmer: brilho que passa pelo botão */
+@keyframes shimmer {
+  0%   { left: -100%; }
+  100% { left: 200%; }
+}
+
+
+/* =============================================================
+   11. RESPONSIVO
+   Ajustes para telas muito pequenas e tablets.
+   ============================================================= */
+
+/* Telas muito baixas (iPhone SE, 5s, etc) */
+@media (max-height: 580px) {
+  .chat-header {
+    padding: 6px 12px;                            /* Menos padding */
+  }
+
+  .chat-avatar {
+    width: 30px;                                  /* Avatar menor */
+    height: 30px;
+  }
+
+  .chat-header-name {
+    font-size: 13px;                              /* Nome menor */
+  }
+
+  .chat-social-proof {
+    font-size: 9px;                               /* Prova social menor */
+  }
+
+  .msg-bubble {
+    font-size: 13.5px;                            /* Texto menor nos balões */
+    padding: 10px 13px;
+  }
+
+  .chat-opt-btn {
+    padding: 10px 13px;                           /* Botões menores */
+    font-size: 13px;
+  }
+}
+
+/* Tablets em retrato */
+@media (min-width: 481px) and (max-width: 768px) {
+  .chat-container {
+    max-width: 480px;                             /* Mantém largura de celular */
+  }
+}
