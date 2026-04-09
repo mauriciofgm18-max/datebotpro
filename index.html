@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Date Bot</title>
+  <link rel="icon" href="logo.png.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.utmify.com.br/scripts/utms/latest.js" data-utmify-prevent-xcod-sck data-utmify-prevent-subids async defer></script>
+  <script>
+    window.pixelId = "69ae2f13308feb91c8146d39";
+    var a = document.createElement("script");
+    a.setAttribute("async", "");
+    a.setAttribute("defer", "");
+    a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+    document.head.appendChild(a);
+  </script>
+</head>
+<body>
+
+  <!-- ===================== LANDING PAGE ===================== -->
+  <div class="lp-container" id="landingPage">
+
+    <h1 class="lp-headline anim-in" style="--delay:0">
+      <span class="lp-line">Ela te ignora no direct?</span>
+      <span class="lp-line highlight-line"><span class="highlight">Veja a resposta que faz ela</span></span>
+      <span class="lp-line">te chamar pra sair</span>
+    </h1>
+
+    <p class="subtitle anim-in" style="--delay:1">
+      O robô analisa a conversa e te dá a <span class="underline-bold">resposta exata</span> que
+      <span class="red-text">quebra o gelo</span> — mesmo que ela só responda "kkk"
+    </p>
+
+    <span class="tag-purple anim-in" style="--delay:2">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:6px;"><path d="M12 2l2.09 6.26L20 10l-5.91 1.74L12 18l-2.09-6.26L4 10l5.91-1.74z"/></svg>
+      veja a diferença ao vivo
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-left:6px;"><path d="M12 2l2.09 6.26L20 10l-5.91 1.74L12 18l-2.09-6.26L4 10l5.91-1.74z"/></svg>
+    </span>
+
+    <!-- ===== SIMULADOR DE DM (3 roteiros em loop) ===== -->
+    <div class="dm-simulator anim-in" id="dmSimulator" style="--delay:3">
+
+      <!-- Área das mensagens (conteúdo injetado via JS) -->
+      <div class="dm-messages" id="dmMessages"></div>
+
+    </div>
+
+    <div class="social-proof anim-in" style="--delay:4">
+      <div class="social-proof-dots">
+        <div class="social-dot"><img src="avatar1.jpg" alt="" /></div>
+        <div class="social-dot"><img src="avatar2.jpg" alt="" /></div>
+        <div class="social-dot"><img src="avatar3.jpg" alt="" /></div>
+      </div>
+      <div class="social-proof-text">
+        <div class="social-proof-line">
+          <span class="live-dot"></span>
+          <span><span class="social-counter" id="socialCounter">4.800</span> homens já fizeram o teste</span>
+        </div>
+        <div class="live-feed" id="liveFeed"></div>
+      </div>
+    </div>
+
+    <button class="btn-iniciar anim-in" id="btnIniciarTeste" style="--delay:5">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:8px;"><path d="M8 5v14l11-7z"/></svg>
+      QUERO TESTAR AGORA
+    </button>
+
+    <div class="warning-box anim-in" style="--delay:6">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" style="vertical-align:middle;margin-right:5px;"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <span class="atencao">Vagas limitadas:</span>
+      O acesso é liberado por ordem de chegada. Faça o teste antes que as vagas acabem.
+    </div>
+
+    <footer>
+      Ao clicar em alguma das opções, você concorda com os Termos de utilização e serviço,
+      Política de privacidade, Política de subscrição e Política de cookies
+    </footer>
+
+  </div><!-- /lp-container -->
+
+  <!-- ===================== MODAL DE CONFIRMAÇÃO ===================== -->
+  <div class="overlay" id="modalOverlay">
+    <div class="modal-card">
+
+      <h2>Antes de continuar confirme os itens abaixo:</h2>
+
+      <div class="checkbox-list">
+
+        <label class="checkbox-item" id="item1">
+          <input type="checkbox" id="check1" />
+          <div class="custom-checkbox">
+            <svg viewBox="0 0 12 10" fill="none">
+              <path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <span class="checkbox-label">Sou homem e tenho 18 anos ou mais</span>
+        </label>
+
+        <label class="checkbox-item" id="item2">
+          <input type="checkbox" id="check2" />
+          <div class="custom-checkbox">
+            <svg viewBox="0 0 12 10" fill="none">
+              <path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <span class="checkbox-label">Não vou usar o robô pra manipular ou prejudicar mulheres</span>
+        </label>
+
+        <label class="checkbox-item" id="item3">
+          <input type="checkbox" id="check3" />
+          <div class="custom-checkbox">
+            <svg viewBox="0 0 12 10" fill="none">
+              <path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <span class="checkbox-label">Entendo que o Date Bot NÃO PODE VIRALIZAR — me comprometo a não compartilhar com ninguém.</span>
+        </label>
+
+      </div>
+
+      <p class="modal-note">Se isso vazar, vai parar de funcionar. Quanto menos gente souber, melhor.</p>
+
+      <button class="btn-entrar" id="btnEntrar" disabled>ENTRAR</button>
+
+    </div>
+  </div><!-- /overlay -->
+
+  <script src="main.js"></script>
+</body>
+</html>
