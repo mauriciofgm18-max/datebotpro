@@ -1,254 +1,93 @@
-/* =============================================================
-   DATE BOT — LANDING PAGE + MODAL
-   ============================================================= */
+<!DOCTYPE html>
+<html lang="pt-BR">
 
-(function () {
-  'use strict';
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Date Bot — Configurando seu Date Bot</title>
+  <link rel="icon" href="../logo.png.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.utmify.com.br/scripts/utms/latest.js" data-utmify-prevent-xcod-sck data-utmify-prevent-subids async defer></script>
+  <script>
+    window.pixelId = "69ae2f13308feb91c8146d39";
+    var a = document.createElement("script");
+    a.setAttribute("async", "");
+    a.setAttribute("defer", "");
+    a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+    document.head.appendChild(a);
+  </script>
+</head>
 
-  /* ===== SELETORES ===== */
-  const btnIniciar    = document.getElementById('btnIniciarTeste');
-  const modalOverlay  = document.getElementById('modalOverlay');
-  const btnEntrar     = document.getElementById('btnEntrar');
+<body>
 
-  const checkboxIds   = ['check1', 'check2', 'check3'];
-  const itemIds       = ['item1',  'item2',  'item3'];
+  <!-- ===================== BARRA TOPO ===================== -->
+  <div class="top-warning">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"
+      style="vertical-align:middle;margin-right:6px;">
+      <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+      <line x1="12" y1="9" x2="12" y2="13" />
+      <line x1="12" y1="17" x2="12.01" y2="17" />
+    </svg>
+    Não feche esta janela. Configuração em andamento.
+  </div>
 
-  /* ===== CHECKBOXES DO MODAL ===== */
-  itemIds.forEach((itemId, i) => {
-    const item  = document.getElementById(itemId);
-    const check = document.getElementById(checkboxIds[i]);
+  <!-- ===================== ÁREA PRINCIPAL ===================== -->
+  <div class="main-container">
 
-    item.addEventListener('click', function (e) {
-      e.preventDefault();
-      check.checked = !check.checked;
-      item.classList.toggle('checked', check.checked);
-      updateBtnEntrar();
-    });
-  });
+    <!-- PROGRESSO -->
+    <div class="progress-wrapper">
+      <div class="config-label" id="configLabel">Configurando seu robô personalizado...</div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="progress-pct" id="progressPct">0%</div>
+    </div>
 
-  function updateBtnEntrar() {
-    const allChecked = checkboxIds.every(id => document.getElementById(id).checked);
-    btnEntrar.disabled = !allChecked;
-    btnEntrar.classList.toggle('enabled', allChecked);
-  }
+    <!-- VÍDEO (9:16) -->
+    <div class="video-wrapper">
+      <div class="video-frame">
+        <script src="https://fast.wistia.com/player.js" async></script>
+        <script src="https://fast.wistia.com/embed/2stjti09cp.js" async type="module"></script>
+        <style>
+          wistia-player[media-id='2stjti09cp']:not(:defined) {
+            background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/2stjti09cp/swatch');
+            display: block;
+            filter: blur(5px);
+            padding-top: 178.06%;
+          }
+        </style>
+        <wistia-player media-id="2stjti09cp" aspect="0.5616224648985959" style="width:100%;"></wistia-player>
+      </div>
+    </div>
 
-  /* ===== ABRIR MODAL ===== */
-  btnIniciar.addEventListener('click', () => {
-    modalOverlay.classList.add('active');
-  });
+    <!-- BOTÃO CTA — aparece quando progresso chega em 100% -->
+    <div class="cta-section" id="ctaSection">
+      <a href="https://pay.cakto.com.br/hwi92as_837732" class="btn-cta">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:6px;">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+        </svg>
+        Escolher meu Robô
+      </a>
+      <p class="cta-note">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"
+          stroke-linecap="round" style="vertical-align:middle;margin-right:4px;">
+          <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
+          <polyline points="22 4 12 14.01 9 11.01" />
+        </svg>
+        Acesso exclusivo — vagas limitadas
+      </p>
+    </div>
 
-  /* ===== FECHAR MODAL CLICANDO NO FUNDO ===== */
-  modalOverlay.addEventListener('click', function (e) {
-    if (e.target === this) {
-      this.classList.remove('active');
-    }
-  });
+  </div><!-- /main-container -->
 
-  /* ===== CONFIRMAR E REDIRECIONAR PARA VSL ===== */
-  btnEntrar.addEventListener('click', () => {
-    if (btnEntrar.disabled) return;
-    window.location.href = 'chat/index.html';
-  });
+  <!-- CONFETE -->
+  <div class="confetti-container" id="confetti"></div>
 
-  /* ===== SOCIAL PROOF AO VIVO ===== */
-  const counterEl = document.getElementById('socialCounter');
-  const liveFeed  = document.getElementById('liveFeed');
+  <script src="main.js"></script>
+</body>
 
-  const nomes = [
-    'Lucas', 'Pedro', 'Gabriel', 'Rafael', 'Matheus',
-    'Bruno', 'Felipe', 'Gustavo', 'Thiago', 'André',
-    'Henrique', 'Vinícius', 'Caio', 'Leonardo', 'Daniel',
-    'Diego', 'Marcos', 'Igor', 'Rodrigo', 'João',
-    'Carlos', 'Eduardo', 'Renato', 'Leandro', 'Fábio'
-  ];
-
-  const cidades = [
-    'SP', 'RJ', 'MG', 'BA', 'PR',
-    'RS', 'PE', 'CE', 'SC', 'GO',
-    'DF', 'PA', 'MA', 'AM', 'ES'
-  ];
-
-  let contadorAtual = 4800;
-
-  function pick(arr) {
-    return arr[Math.floor(Math.random() * arr.length)];
-  }
-
-  function formatNumber(n) {
-    return n.toLocaleString('pt-BR');
-  }
-
-  // Incrementa o contador a cada 4-8s
-  setInterval(() => {
-    contadorAtual += Math.floor(Math.random() * 3) + 1;
-    counterEl.textContent = formatNumber(contadorAtual);
-    counterEl.style.color = '#fff';
-    setTimeout(() => { counterEl.style.color = '#ccc'; }, 400);
-  }, 4000 + Math.random() * 4000);
-
-  // Mostra notificação de "fulano acabou de fazer" a cada 3-6s
-  function showLiveNotification() {
-    const nome   = pick(nomes);
-    const cidade = pick(cidades);
-    const tempo  = Math.floor(Math.random() * 30) + 1;
-
-    const item = document.createElement('span');
-    item.className   = 'live-feed-item';
-    item.textContent = `${nome} de ${cidade} fez o teste há ${tempo}s`;
-    liveFeed.innerHTML = '';
-    liveFeed.appendChild(item);
-
-    const delay = 3000 + Math.random() * 3000;
-    setTimeout(showLiveNotification, delay);
-  }
-
-  // Inicia após 1.5s
-  setTimeout(showLiveNotification, 1500);
-
-
-  /* =============================================================
-     SIMULADOR DE DM — Mini conversa estilo Instagram
-     3 roteiros em loop com fade in/out entre cada um.
-     ============================================================= */
-
-  const dmMessages = document.getElementById('dmMessages');
-
-  /**
-   * Roteiros da conversa.
-   * Cada roteiro é um array de "passos".
-   * Tipos de passo:
-   *   - { side: 'left',  text }                         → mensagem da garota
-   *   - { side: 'right', text, label, labelCls }        → resposta com label acima
-   *   - { side: 'right', text, correct, label, labelCls } → resposta correta com label
-   *   - { type: 'photo', src }                          → imagem da garota
-   */
-  const roteiros = [
-    /* ===== ROTEIRO 1: Foto academia ===== */
-    [
-      { type: 'photo', src: 'foto academia.webp' },
-      { side: 'right', text: 'mt linda', strikethrough: true, label: '✕ Você responderia:', labelCls: 'wrong' },
-      { side: 'right', text: 'Foi treinar de verdade ou só foi distrair a academia inteira? Hahah', correct: true, label: '✦ Responda assim:', labelCls: 'correct' },
-      { side: 'left',  text: 'Hahahah gostei 😊' },
-    ],
-    /* ===== ROTEIRO 2: Foto hamburguer ===== */
-    [
-      { type: 'photo', src: 'foto hamburguer.webp' },
-      { side: 'left',  text: 'Melhor burguer da cidade🍔' },
-      { side: 'right', text: 'parece mt bom mesmo', strikethrough: true, label: '✕ Você responderia:', labelCls: 'wrong' },
-      { side: 'right', text: 'Agora fiquei curioso... o burguer é bom mesmo ou você que tem talento pra escolher comida boa?', correct: true, label: '✦ Responda assim:', labelCls: 'correct' },
-      { side: 'left',  text: 'Hahaha vamos testar 😏' },
-    ],
-    /* ===== ROTEIRO 3: Continuação de conversa ===== */
-    [
-      { side: 'left',  text: 'kkkk verdade' },
-      { side: 'right', text: 'pse', strikethrough: true, label: '✕ Você responderia:', labelCls: 'wrong' },
-      { side: 'right', text: 'Conversa assim sempre acaba em café ou em historia engraçada... oq vc prefere? Hahah', correct: true, label: '✦ Responda assim:', labelCls: 'correct' },
-      { side: 'left',  text: 'café hahahaha' },
-    ],
-  ];
-
-  let rotIndex = 0; // Índice do roteiro atual
-
-  /**
-   * dmWait(ms) — pausa
-   */
-  function dmWait(ms) {
-    return new Promise(r => setTimeout(r, ms));
-  }
-
-  /**
-   * Cria um elemento de foto no DM.
-   */
-  function createPhoto(src, delayMs) {
-    const div = document.createElement('div');
-    div.className = 'dm-photo';
-    div.style.animationDelay = delayMs + 'ms';
-    div.innerHTML = '<img src="' + src + '" />';
-    return div;
-  }
-
-  /**
-   * Cria uma label separada ("Você responderia:" / "Responda assim:")
-   * Fica ACIMA do balão como elemento independente.
-   */
-  function createLabel(cls, text, delayMs) {
-    const div = document.createElement('div');
-    div.className = 'dm-label ' + cls;
-    div.textContent = text;
-    div.style.animationDelay = delayMs + 'ms';
-    return div;
-  }
-
-  /**
-   * Cria um balão de mensagem.
-   */
-  function createBubble(step, delayMs) {
-    const row = document.createElement('div');
-    row.className = 'dm-row ' + step.side;
-    row.style.animationDelay = delayMs + 'ms';
-
-    const bubble = document.createElement('div');
-    bubble.className = 'dm-bubble';
-
-    if (step.correct) bubble.classList.add('dm-correct');
-
-    if (step.strikethrough) {
-      bubble.innerHTML = '<span class="dm-strikethrough">' + step.text + '</span>';
-    } else {
-      bubble.textContent = step.text;
-    }
-
-    row.appendChild(bubble);
-    return row;
-  }
-
-  /**
-   * Exibe um roteiro completo com delays escalonados.
-   */
-  async function playRoteiro(roteiro) {
-    dmMessages.innerHTML = '';
-    dmMessages.classList.remove('fading');
-
-    let delay = 0;
-
-    roteiro.forEach(function (step) {
-      var stepDelay;
-
-      if (step.type === 'photo') {
-        dmMessages.appendChild(createPhoto(step.src, delay));
-        stepDelay = 1400;
-      } else {
-        /* Se tem label, renderiza ela ACIMA do balão */
-        if (step.label) {
-          dmMessages.appendChild(createLabel(step.labelCls, step.label, delay));
-          delay += 400;             // Pequena pausa entre label e balão
-        }
-        dmMessages.appendChild(createBubble(step, delay));
-        stepDelay = 1000 + Math.min(step.text.length * 18, 800);
-      }
-
-      delay += stepDelay;
-    });
-
-    // Espera todas as animações + tempo de leitura final
-    await dmWait(delay + 3500);
-
-    // Fade out
-    dmMessages.classList.add('fading');
-    await dmWait(500);
-  }
-
-  /**
-   * Loop infinito dos roteiros.
-   */
-  async function dmLoop() {
-    while (true) {
-      await playRoteiro(roteiros[rotIndex]);
-      rotIndex = (rotIndex + 1) % roteiros.length;
-    }
-  }
-
-  // Inicia o simulador após 1s
-  setTimeout(dmLoop, 1000);
-
-})();
+</html>
